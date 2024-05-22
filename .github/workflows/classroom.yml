@@ -22,15 +22,6 @@ jobs:
         command: pytest rmse_test.py
         timeout: 10
         max-score: 1
-    - name: rmse_test.py
-      id: rmse_test-py
-      uses: classroom-resources/autograding-command-grader@v1
-      with:
-        test-name: rmse_test.py
-        setup-command: pip install -r requirements.txt
-        command: pytest rmse_test.py
-        timeout: 10
-        max-score: 1
     - name: tensor_multiplication_test
       id: tensor_multiplication_test
       uses: classroom-resources/autograding-command-grader@v1
@@ -40,11 +31,20 @@ jobs:
         command: pytest tensor_multiplication_test.py
         timeout: 10
         max-score: 1
+    - name: numeric_derivation_test
+      id: numeric_derivation_test
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: numeric_derivation_test
+        setup-command: pip install -r requirements.txt
+        command: pytest numeric_derivation_test.py
+        timeout: 10
+        max-score: 1
     - name: Autograding Reporter
       uses: classroom-resources/autograding-grading-reporter@v1
       env:
         RMSE_TEST_RESULTS: "${{steps.rmse_test.outputs.result}}"
-        RMSE_TEST-PY_RESULTS: "${{steps.rmse_test-py.outputs.result}}"
         TENSOR_MULTIPLICATION_TEST_RESULTS: "${{steps.tensor_multiplication_test.outputs.result}}"
+        NUMERIC_DERIVATION_TEST_RESULTS: "${{steps.numeric_derivation_test.outputs.result}}"
       with:
-        runners: rmse_test,rmse_test-py,tensor_multiplication_test
+        runners: rmse_test,tensor_multiplication_test,numeric_derivation_test
